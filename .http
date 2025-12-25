@@ -1,0 +1,35 @@
+## 구현할 API 엔드포인트 지정
+
+// Auth 관련
+# 일반 회원가입
+POST /auth/register          
+# 초대 링크로 회원가입
+POST /auth/register/invite   
+# 로그인
+POST /auth/login             
+# 로그아웃
+POST /auth/logout            
+# 내 정보
+GET /auth/me                
+
+// Team 관련
+# 팀 생성
+POST /teams                  
+# 내가 속한 팀 목록
+GET  /teams                  
+# 팀 상세
+GET  /teams/:id              
+# 초대 링크 생성/재생성
+POST /teams/:id/invite       
+# 초대 코드로 팀 정보 조회
+GET  /teams/join/:code       
+# 초대 수락 (로그인 유저)
+POST /teams/join/:code       
+
+// Members 관련
+# 팀 멤버 목록
+GET  /teams/:id/members      
+# 멤버 제거
+DELETE /teams/:id/members/:userId  
+# 권한 변경
+PATCH /teams/:id/members/:userId/role  

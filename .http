@@ -1,35 +1,126 @@
-## 구현할 API 엔드포인트 지정
+## API 엔드포인트
 
-// Auth 관련
-# 일반 회원가입
-POST /auth/register          
-# 초대 링크로 회원가입
-POST /auth/register/invite   
-# 로그인
-POST /auth/login             
-# 로그아웃
-POST /auth/logout            
-# 내 정보
-GET /auth/me                
+### 인증 (Auth)
 
-// Team 관련
-# 팀 생성
-POST /teams                  
-# 내가 속한 팀 목록
-GET  /teams                  
-# 팀 상세
-GET  /teams/:id              
-# 초대 링크 생성/재생성
-POST /teams/:id/invite       
-# 초대 코드로 팀 정보 조회
-GET  /teams/join/:code       
-# 초대 수락 (로그인 유저)
-POST /teams/join/:code       
+#### 일반 회원가입
 
-// Members 관련
-# 팀 멤버 목록
-GET  /teams/:id/members      
-# 멤버 제거
-DELETE /teams/:id/members/:userId  
-# 권한 변경
-PATCH /teams/:id/members/:userId/role  
+```http
+POST /auth/register
+Content-Type: application/json
+
+{
+  "email": "user@example.com",
+  "password": "password123",
+  "username": "홍길동"
+}
+```
+
+#### 초대 링크로 회원가입
+
+```http
+POST /auth/register/invite
+Content-Type: application/json
+
+{
+  "email": "user@example.com",
+  "password": "password123",
+  "username": "홍길동",
+  "inviteCode": "abc12345"
+}
+```
+
+#### 로그인
+
+```http
+POST /auth/login
+Content-Type: application/json
+
+{
+  "email": "user@example.com",
+  "password": "password123"
+}
+```
+
+#### 내 정보 조회
+
+```http
+GET /auth/me
+Authorization: Bearer {accessToken}
+```
+
+### 팀 (Teams)
+
+#### 팀 생성
+
+```http
+POST /teams
+Authorization: Bearer {accessToken}
+Content-Type: application/json
+
+{
+  "name": "개발팀",
+  "description": "프론트엔드 개발팀",
+  "isPublic": false
+}
+```
+
+#### 내가 속한 팀 목록
+
+```http
+GET /teams
+Authorization: Bearer {accessToken}
+```
+
+#### 팀 상세 정보
+
+```http
+GET /teams/{teamId}
+Authorization: Bearer {accessToken}
+```
+
+#### 팀 멤버 목록
+
+```http
+GET /teams/{teamId}/members
+Authorization: Bearer {accessToken}
+```
+
+#### 초대 코드 재생성
+
+```http
+POST /teams/{teamId}/invite/regenerate
+Authorization: Bearer {accessToken}
+```
+
+#### 초대 코드로 팀 정보 조회
+
+```http
+GET /teams/join/{inviteCode}
+Authorization: Bearer {accessToken}
+```
+
+#### 초대 코드로 팀 참여
+
+```http
+POST /teams/join/{inviteCode}
+Authorization: Bearer {accessToken}
+```
+
+#### 멤버 제거
+
+```http
+DELETE /teams/{teamId}/members/{userId}
+Authorization: Bearer {accessToken}
+```
+
+#### 멤버 권한 변경
+
+```http
+PATCH /teams/{teamId}/members/{userId}/role
+Authorization: Bearer {accessToken}
+Content-Type: application/json
+
+{
+  "role": "admin"
+}
+```
